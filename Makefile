@@ -1,10 +1,8 @@
-FILE="${1}.js"
-
 default:
-	make run
+	make run FILE=index
 
 clean:
-	rm Archive.zip
+	rm *.zip
 
 run:
 	make clean
