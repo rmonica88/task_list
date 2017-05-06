@@ -2,7 +2,7 @@
   "name": "task_list",
   "version": "1.0.0",
   "description": "",
-  "main": "add_task.js",
+  "main": "create_task.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.49.0"
+    "aws-sdk": "^2.49.0",
+    "uuid": "^3.0.1"
   }
 }
