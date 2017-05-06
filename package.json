@@ -12,6 +12,7 @@
   "dependencies": {
     "aws-sdk": "^2.49.0",
     "mailgun-js": "^0.10.1",
-    "uuid": "^3.0.1"
+    "uuid": "^3.0.1",
+    "vandium": "^4.0.0"
   }
 }
