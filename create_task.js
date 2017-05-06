@@ -21,7 +21,7 @@ exports.create = (event, context, callback) => {
     if(err){
       callback(err, null);
     } else {
-      callback(null, { message: "Task successfully created", task: params.Item });
+      callback(null, { message: "Task successfully created", task: JSON.stringify(params.Item) });
     }
   });
 };
