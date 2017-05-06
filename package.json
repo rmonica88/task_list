@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.49.0",
-    "sendgrid": "^5.1.0",
+    "mailgun-js": "^0.10.1",
     "uuid": "^3.0.1"
   }
 }

@@ -1,10 +1,11 @@
-const mailer    = require('sendgrid').mail;
-const sg        = require('sendgrid')(process.env.SENDGRID_API_KEY);
+const api_key   = process.env.MG_API_KEY;
+const domain    = 'mg.tasklist.com';
 const aws       = require('aws-sdk');
+const mg        = require('mailgun-js')({apiKey: api_key, domain: domain});
 const dyno      = new aws.DynamoDB.DocumentClient();
-const fromEmail = new mailer.Email('test@example.com');
+const fromEmail = 'bot@tasklist.com';
 const subject   = 'You have yet to complete your task!';
-const db        = "Task";
+const db        = 'Task';
 
 exports.emailer = (event, context, callback) => {
   var params = {
@@ -30,24 +31,21 @@ exports.emailer = (event, context, callback) => {
       console.log(data.Items);
       data.Items.forEach(function(task) {
         console.log(task.user);
-        var toEmail = new mailer.Email("lenguti@gmail.com");
-        var content = new mailer.Content('text/plain', "You did not complete your task yet " + "blah");
-        var mail    = new mailer.Mail(fromEmail, subject, toEmail, content);
-        var request = sg.emptyRequest({
-          method: 'POST',
-          path: '/v3/mail/send',
-          body: mail.toJSON()
-        });
+        var data = {
+          from: fromEmail,
+          to: task.user,
+          subject: subject,
+          text: "You have yet to complete your task! Task: " + task.description
+        };
 
-        sg.API(request, function (error, response) {
-          if (error) {
-            console.log('Error response received');
+        mg.messages().send(data, function (error, body) {
+          if(err) {
+            console.log(error);
+          } else {
+            console.log(body);
           }
-          console.log(response.statusCode);
         });
-
       });
     }
   }
 };
-
