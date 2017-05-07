@@ -1,70 +1,321 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "version": "1.0.0",
-        "title": "Task List Api",
-        "description": "A basic crud task list API",
-        "termsOfService": "http://swagger.io/terms/",
-        "contact": {
-            "name": "Lenard Gutierrez"
-        }
-    },
-    "basePath": "/dev",
-    "consumes": [
-        "application/json"
-    ],
-    "produces": [
-        "application/json"
-    ],
-    "paths": {
-        "/new-task": {
-            "post": {
-                "description": "creates a new task",
-                "operationId": "newTask",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Body",
-                        "description": "Object containing task params",
-                        "in": "body",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/definitions/PostTaskRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "message: task successfully created"
-                    }
-                }
-            }
-        }
-    },
-    "definitions": {
-        "PostTaskRequest": {
-            "title": "Task post structure",
-            "type": "object",
-            "properties": {
-                "user": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "priority": {
-                    "type": "integer"
-                },
-                "completed": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "description",
-                "priority"
-            ]
-        }
+  "swagger": "2.0",
+  "info": {
+    "description": "A basic crud task list API",
+    "version": "2017-05-07T04:30:22Z",
+    "title": "TaskListApi",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "Lenard Gutierrez"
     }
+  },
+  "host": "10udnqa929.execute-api.us-east-1.amazonaws.com",
+  "basePath": "/dev",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/delete-task": {
+      "delete": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "uuid",
+            "description": "Object containing task params",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response"
+          },
+          "204": {
+            "description": "204 response"
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200"
+            }
+          },
+          "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:621911291760:function:deleteTask/invocations",
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "type": "aws_proxy"
+        }
+      }
+    },
+    "/list-tasks": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "a list of tasks",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Task"
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200"
+            }
+          },
+          "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:621911291760:function:listTask/invocations",
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "type": "aws_proxy"
+        }
+      }
+    },
+    "/new-task": {
+      "post": {
+        "description": "creates a new task",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Task object",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/NewTask"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200"
+            }
+          },
+          "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:621911291760:function:createTask/invocations",
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "type": "aws_proxy"
+        }
+      }
+    },
+    "/update-task": {
+      "put": {
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Task object",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTask"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        },
+        "x-amazon-apigateway-integration": {
+          "responses": {
+            "default": {
+              "statusCode": "200"
+            }
+          },
+          "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:621911291760:function:updateTask/invocations",
+          "passthroughBehavior": "when_no_match",
+          "httpMethod": "POST",
+          "contentHandling": "CONVERT_TO_TEXT",
+          "type": "aws_proxy"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Empty": {
+      "type": "object",
+      "title": "Empty Schema"
+    },
+    "Task": {
+      "type": "object",
+      "title": "Task object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "integer"
+        },
+        "completed": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "priority"
+      ]
+    },
+    "NewTask": {
+      "type": "object",
+      "title": "Create Task object",
+      "properties": {
+        "user": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "integer"
+        },
+        "completed": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "priority"
+      ]
+    },
+    "UpdateTask": {
+      "type": "object",
+      "title": "Update Task object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "integer"
+        },
+        "completed": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "uuid",
+        "description",
+        "priority"
+      ]
+    },
+    "DeleteReq": {
+      "type": "object",
+      "title": "Delete Body",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "uuid"
+      ]
+    }
+  },
+  "x-amazon-apigateway-documentation": {
+    "version": "1",
+    "createdDate": "2017-05-07T14:12:38Z",
+    "documentationParts": [
+      {
+        "location": {
+          "type": "API"
+        },
+        "properties": {
+          "info": {
+            "description": "A basic crud task list API",
+            "termsOfService": "http://swagger.io/terms/",
+            "contact": {
+              "name": "Lenard Gutierrez"
+            }
+          }
+        }
+      },
+      {
+        "location": {
+          "type": "METHOD",
+          "path": "/new-task",
+          "method": "POST"
+        },
+        "properties": {
+          "description": "creates a new task"
+        }
+      },
+      {
+        "location": {
+          "type": "MODEL",
+          "name": "PostTaskRequest"
+        },
+        "properties": {
+          "title": "Task post structure"
+        }
+      },
+      {
+        "location": {
+          "type": "REQUEST_BODY",
+          "path": "/new-task",
+          "method": "POST"
+        },
+        "properties": {
+          "description": "Object containing task params"
+        }
+      },
+      {
+        "location": {
+          "type": "RESPONSE",
+          "path": "/new-task",
+          "method": "POST",
+          "statusCode": "201"
+        },
+        "properties": {
+          "description": "message: task successfully created"
+        }
+      }
+    ]
+  }
 }
