@@ -1,0 +1,70 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Task List Api",
+        "description": "A basic crud task list API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Lenard Gutierrez"
+        }
+    },
+    "basePath": "/dev",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/new-task": {
+            "post": {
+                "description": "creates a new task",
+                "operationId": "newTask",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Body",
+                        "description": "Object containing task params",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/PostTaskRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "message: task successfully created"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "PostTaskRequest": {
+            "title": "Task post structure",
+            "type": "object",
+            "properties": {
+                "user": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "priority": {
+                    "type": "integer"
+                },
+                "completed": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "priority"
+            ]
+        }
+    }
+}
