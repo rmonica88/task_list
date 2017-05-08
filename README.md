@@ -10,11 +10,11 @@ Basic CRUD application built for serverless architecture, users will be able to 
 Task structure:
 ```JSON
 {
-    "uuid": "string",                 | unique identifier to destinguish between tasks
-    "user": "string",                 | user email
-    "description": "string",          | descritpion of task
-    "priority": "integer",            | priority of task from 0 to 9
-    "completed": "string"             | date of task was completed
+    "uuid": "string",
+    "user": "string",
+    "description": "string",
+    "priority": "integer",
+    "completed": "string"
 }
 ```
 
@@ -61,7 +61,7 @@ priority: "integer"
 
 sample post data:
 {
-	  "user": "lenlen@beemail.com",
+    "user": "lenlen@beemail.com",
     "description": "sweet new task",
     "priority": 2,
     "completed": "2016-07-06T12:22:46-04:00"
