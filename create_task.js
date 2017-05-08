@@ -11,15 +11,20 @@ exports.create = vandium.api().POST({
         priority: vandium.types.number().integer().min(0).max(9).required()
     }
 }, (event, context, callback) => {
-    console.log(event.body);
+    console.log(JSON.parse(JSON.stringify(event.body)));
+    var content = JSON.parse(JSON.stringify(event.body));
+    var usr = content.user === undefined ? null : JSON.parse(JSON.stringify(event.body.user));
+    var complt = content.completed === undefined ? null : JSON.parse(JSON.stringify(event.body.completed));
+    console.log(typeof content);
+    console.log('checking if user was sent' + content.user === 'undefined');
     var params = {
         TableName: db,
         Item: {
             uuid: uuidV1(),
-            user: JSON.parse(JSON.stringify(event.body.user)),
+            user: usr,
             description: JSON.parse(JSON.stringify(event.body.description)),
             priority: JSON.parse(event.body.priority),
-            completed: JSON.parse(JSON.stringify(event.body.completed))
+            completed: complt
         }
     };
 
