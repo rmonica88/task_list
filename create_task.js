@@ -12,11 +12,12 @@ exports.create = vandium.api().POST({
     }
 }, (event, context, callback) => {
     console.log(JSON.parse(JSON.stringify(event.body)));
-    var content = JSON.parse(JSON.stringify(event.body));
-    var usr = content.user === undefined ? null : JSON.parse(JSON.stringify(event.body.user));
-    var complt = content.completed === undefined ? null : JSON.parse(JSON.stringify(event.body.completed));
-    console.log(typeof content);
-    console.log('checking if user was sent' + content.user === 'undefined');
+    console.log('this is the context');
+    console.log(context);
+
+    var usr = context.event.body.hasOwnProperty('user') ? JSON.parse(JSON.stringify(event.body.user)) : null;
+    var complt = context.event.body.hasOwnProperty('completed') ? JSON.parse(JSON.stringify(event.body.completed)) : null;
+
     var params = {
         TableName: db,
         Item: {
